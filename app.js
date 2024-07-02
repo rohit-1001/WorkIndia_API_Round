@@ -78,6 +78,19 @@ app.post('/api/login', async (req, res) => {
 
 
 
+app.post('/api/car/create', async(req, res) => {
+    const { category, model, number_plate, current_city, rent_per_hr } = req.body;
+    let rent_history = "";
+    let sql = "INSERT INTO car (category, model, number_plate, current_city, rent_per_hr, rent_history) VALUES (?, ?, ?, ?, ?, ?)";
+    conn.query(sql, [category, model, number_plate, current_city, rent_per_hr, rent_history], (err, result) => {
+        if(err) {
+            return res.status(400).json({ err: "Failed to add car", error: err });
+        } else {
+            return res.status(200).json({ status: "Car added successfully", status_code: 200 });
+        }
+    });
+})
+
 app.listen(8000, () => {
     console.log("Backend running successfully");
 });
